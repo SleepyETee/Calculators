@@ -1,0 +1,8 @@
+[package]
+name = "calculator"
+version = "1.0.0"
+edition = "2021"
+description = "Scientific Calculator in Rust"
+authors = ["SleepyETee"]
+
+[dependencies]

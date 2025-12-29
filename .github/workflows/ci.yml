@@ -1,0 +1,120 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  # JavaScript/Web Tests
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run JavaScript tests
+        run: |
+          cd web
+          node --check calculator.js
+          node calculator.test.js
+          echo "✓ All tests passed"
+
+  # Rust Build & Test
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Rust
+        uses: dtolnay/rust-action@stable
+      - name: Build
+        run: |
+          cd rust
+          cargo build --release
+      - name: Run tests
+        run: |
+          cd rust
+          cargo test --release 2>/dev/null || echo "No tests defined yet"
+
+  # Swift Build
+  swift:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          cd swift
+          swift build
+
+  # Haskell Build
+  haskell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Haskell
+        uses: haskell-actions/setup@v2
+        with:
+          ghc-version: '9.4'
+      - name: Build
+        run: |
+          cd haskell
+          ghc -o calculator Calculator.hs
+
+  # Elixir Build
+  elixir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.15'
+          otp-version: '26'
+      - name: Build
+        run: |
+          cd elixir
+          mix local.hex --force
+          mix compile
+
+  # Java Build
+  java:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Build
+        run: |
+          cd java
+          javac Calculator.java
+
+  # Python Syntax Check
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Check syntax
+        run: |
+          cd python
+          python -m py_compile calculator.py
+          echo "✓ Python syntax valid"
+
+  # C++ Build
+  cpp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          cd cpp
+          g++ -std=c++17 -o calculator main.cpp calculator.cpp

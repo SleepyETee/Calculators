@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <h1>Scientific Calculator</h1>
+            <div class="header-controls">
+                <button id="theme-toggle" class="icon-btn" title="Toggle Theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+                <button id="history-toggle" class="icon-btn" title="Toggle History">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </button>
+                <button id="help-toggle" class="icon-btn" title="Keyboard Shortcuts">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="calculator">
+                <div class="display-container">
+                    <div class="mode-indicator">
+                        <span id="angle-mode" class="mode-badge">DEG</span>
+                        <span id="memory-indicator" class="mode-badge hidden">M</span>
+                    </div>
+                    <div class="expression" id="expression"></div>
+                    <div class="display-row">
+                        <input type="text" class="display" id="display" placeholder="0" readonly>
+                        <button class="copy-btn" id="copy-btn" title="Copy result">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="button-grid">
+                    <!-- Row 1: Mode & Clear -->
+                    <button class="btn func mode-btn" data-action="toggle-mode" id="mode-btn">DEG</button>
+                    <button class="btn func" data-action="clear-entry">CE</button>
+                    <button class="btn func" data-action="clear">AC</button>
+                    <button class="btn func" data-action="backspace">⌫</button>
+
+                    <!-- Row 2: Trig Functions -->
+                    <button class="btn func" data-action="func" data-func="sin">sin</button>
+                    <button class="btn func" data-action="func" data-func="cos">cos</button>
+                    <button class="btn func" data-action="func" data-func="tan">tan</button>
+                    <button class="btn op" data-action="op" data-op="/">÷</button>
+
+                    <!-- Row 3: Inverse Trig -->
+                    <button class="btn func" data-action="func" data-func="asin">sin⁻¹</button>
+                    <button class="btn func" data-action="func" data-func="acos">cos⁻¹</button>
+                    <button class="btn func" data-action="func" data-func="atan">tan⁻¹</button>
+                    <button class="btn op" data-action="op" data-op="*">×</button>
+
+                    <!-- Row 4: Powers & Roots -->
+                    <button class="btn func" data-action="func" data-func="sqrt">√</button>
+                    <button class="btn func" data-action="func" data-func="cbrt">∛</button>
+                    <button class="btn func" data-action="power">xʸ</button>
+                    <button class="btn op" data-action="op" data-op="-">−</button>
+
+                    <!-- Row 5: Log & Exp -->
+                    <button class="btn func" data-action="func" data-func="log">log</button>
+                    <button class="btn func" data-action="func" data-func="ln">ln</button>
+                    <button class="btn func" data-action="func" data-func="exp">eˣ</button>
+                    <button class="btn op" data-action="op" data-op="+">+</button>
+
+                    <!-- Row 5.5: Hyperbolic -->
+                    <button class="btn func small" data-action="func" data-func="sinh">sinh</button>
+                    <button class="btn func small" data-action="func" data-func="cosh">cosh</button>
+                    <button class="btn func small" data-action="func" data-func="tanh">tanh</button>
+                    <button class="btn func" data-action="percent">%</button>
+
+                    <!-- Row 6: Constants & Special -->
+                    <button class="btn const" data-action="const" data-const="pi">π</button>
+                    <button class="btn const" data-action="const" data-const="e">e</button>
+                    <button class="btn func" data-action="func" data-func="factorial">n!</button>
+                    <button class="btn func" data-action="func" data-func="abs">|x|</button>
+
+                    <!-- Row 7: Numbers 7-9 -->
+                    <button class="btn num" data-action="num" data-num="7">7</button>
+                    <button class="btn num" data-action="num" data-num="8">8</button>
+                    <button class="btn num" data-action="num" data-num="9">9</button>
+                    <button class="btn func" data-action="paren" data-paren="(">(</button>
+
+                    <!-- Row 8: Numbers 4-6 -->
+                    <button class="btn num" data-action="num" data-num="4">4</button>
+                    <button class="btn num" data-action="num" data-num="5">5</button>
+                    <button class="btn num" data-action="num" data-num="6">6</button>
+                    <button class="btn func" data-action="paren" data-paren=")">)</button>
+
+                    <!-- Row 9: Numbers 1-3 -->
+                    <button class="btn num" data-action="num" data-num="1">1</button>
+                    <button class="btn num" data-action="num" data-num="2">2</button>
+                    <button class="btn num" data-action="num" data-num="3">3</button>
+                    <button class="btn op" data-action="op" data-op="mod">mod</button>
+
+                    <!-- Row 10: Zero, Decimal, Negate, Equals -->
+                    <button class="btn num zero" data-action="num" data-num="0">0</button>
+                    <button class="btn num" data-action="decimal">.</button>
+                    <button class="btn func" data-action="negate">±</button>
+                    <button class="btn equals" data-action="equals">=</button>
+                </div>
+
+                <!-- Memory buttons -->
+                <div class="memory-row">
+                    <button class="btn mem" data-action="mc">MC</button>
+                    <button class="btn mem" data-action="mr">MR</button>
+                    <button class="btn mem" data-action="m+">M+</button>
+                    <button class="btn mem" data-action="m-">M−</button>
+                    <button class="btn mem" data-action="ms">MS</button>
+                </div>
+            </div>
+
+            <!-- History Panel -->
+            <aside class="history-panel" id="history-panel">
+                <div class="history-header">
+                    <h2>History</h2>
+                    <button class="btn-clear-history" id="clear-history">Clear</button>
+                </div>
+                <div class="history-list" id="history-list">
+                    <p class="history-empty">No calculations yet</p>
+                </div>
+            </aside>
+        </main>
+
+        <footer class="footer">
+            <p>Built with vanilla HTML, CSS & JavaScript</p>
+        </footer>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal-overlay" id="help-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Keyboard Shortcuts</h2>
+                <button class="modal-close" id="help-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="shortcut-group">
+                    <h3>Numbers & Operations</h3>
+                    <div class="shortcut"><kbd>0-9</kbd> Numbers</div>
+                    <div class="shortcut"><kbd>.</kbd> Decimal point</div>
+                    <div class="shortcut"><kbd>+ - * /</kbd> Operations</div>
+                    <div class="shortcut"><kbd>^</kbd> Power</div>
+                    <div class="shortcut"><kbd>%</kbd> Modulo</div>
+                    <div class="shortcut"><kbd>( )</kbd> Parentheses</div>
+                </div>
+                <div class="shortcut-group">
+                    <h3>Actions</h3>
+                    <div class="shortcut"><kbd>Enter</kbd> Calculate</div>
+                    <div class="shortcut"><kbd>Backspace</kbd> Delete last</div>
+                    <div class="shortcut"><kbd>Escape</kbd> Clear all</div>
+                    <div class="shortcut"><kbd>Delete</kbd> Clear entry</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="calculator.js" type="module"></script>
+</body>
+</html>

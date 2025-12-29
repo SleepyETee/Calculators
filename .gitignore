@@ -398,3 +398,35 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Rust
+rust/target/
+rust/Cargo.lock
+
+# Swift
+swift/.build/
+swift/.swiftpm/
+swift/Package.resolved
+
+# Haskell
+haskell/*.hi
+haskell/*.o
+haskell/calculator
+haskell/.stack-work/
+
+# Elixir
+elixir/_build/
+elixir/deps/
+elixir/*.beam
+elixir/calculator
+
+# Java
+java/*.class
+
+# C++
+cpp/*.exe
+cpp/*.out
+cpp/calculator
+
+# macOS
+.DS_Store
